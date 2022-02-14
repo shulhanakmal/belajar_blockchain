@@ -1,18 +1,36 @@
-import React from 'react';
+import { Fragment, Component } from "react";
+import FormLogin from "./FormLogin";
+import { Navigate } from 'react-router-dom';
 
-const Login = () => {
-    return (
-        <>
-            <div>
-                <label>Username : </label>
-                <input type="input" name="username" />
-            </div>
-            <div>
-                <label>Password : </label>
-                <input type="password" name="password" />
-            </div>
-        </>
-    )
+export default class Login extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+        vlogin: false,
+    };
+  }
+
+  handleSubmit = (values) => {
+    if(values.username === 'admin' && values.password === '123456') {
+        this.setState({
+            vlogin: true,
+        });
+    }
+  };
+
+  render() {
+
+    if(this.state.vlogin) {
+        return <Navigate to="/HalamanDua" replace={true} />
+    } else {
+        return (
+            <Fragment>
+                <FormLogin
+                    onSubmit={this.handleSubmit}
+                />
+            </Fragment>
+        );
+    }
+  }
 }
-
-export default Login;
