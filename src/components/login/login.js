@@ -8,11 +8,25 @@ export default class Login extends Component {
 
     this.state = {
         vlogin: false,
+        username: '',
+        password: '',
     };
   }
 
-  handleSubmit = (values) => {
-    if(values.username === 'admin' && values.password === '123456') {
+  changeUsername = (event) => {
+    this.setState({
+      username: event.target.value,
+    });
+  };
+
+  changePassword = (event) => {
+    this.setState({
+      password: event.target.value,
+    });
+  };
+
+  handleSubmit = () => {
+    if(this.state.username === 'admin' && this.state.password === '123456') {
         this.setState({
             vlogin: true,
         });
@@ -27,6 +41,8 @@ export default class Login extends Component {
         return (
             <Fragment>
                 <FormLogin
+                    changeUsername={this.changeUsername}
+                    changePassword={this.changePassword}
                     onSubmit={this.handleSubmit}
                 />
             </Fragment>
