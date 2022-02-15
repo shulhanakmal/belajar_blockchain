@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 
 const FormLogin = (props) => {
-  const { handleSubmit, changeUsername, changePassword } = props;
+  const { handleSubmit, changeEmail } = props;
   const mainColor = useColorModeValue("#00A18B", "#00A18B");
   const textColor = useColorModeValue("gray.400", "white");
 
@@ -26,23 +26,19 @@ const FormLogin = (props) => {
         <Flex alignItems="center" justifyContent="start" >
           <Flex direction="column" w="100%" background="transparent" >
             <Text mb="36px" ms="4px" color={textColor} fontWeight="bold" fontSize="20px">
-                Masukkan Username dan Password Untuk login
+              Masukkan Email Untuk login
             </Text>
             <chakra.form onSubmit={handleSubmit}>
               <FormControl>
-                  <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-                      Username
-                  </FormLabel>
-                  <Input onChange={changeUsername} borderRadius="15px" mb="24px" fontSize="sm" type="text" placeholder="username Anda" size="lg"/>
+                <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
+                    Email
+                </FormLabel>
+                <Input onChange={changeEmail} borderRadius="15px" mb="24px" fontSize="sm" type="email" placeholder="email Anda" size="lg"/>
               </FormControl>
               <FormControl>
-                  <FormLabel ms="4px" fontSize="sm" fontWeight="normal">
-                      Password
-                  </FormLabel>
-                  <Input onChange={changePassword} borderRadius="15px" mb="24px" fontSize="sm" type="password" placeholder="password Anda" size="lg"/>
-                  <Button fontSize="sm" type="submit" bg={mainColor} w="100%" h="45" mb="20px" color="white" mt="20px" _hover={{bg: "teal.200"}} _active={{bg: mainColor}}>
-                      SIGN IN
-                  </Button>
+                <Button fontSize="sm" type="submit" bg={mainColor} w="100%" h="45" mb="20px" color="white" mt="20px" _hover={{bg: "teal.200"}} _active={{bg: mainColor}}>
+                    SIGN IN
+                </Button>
               </FormControl>
             </chakra.form>
           </Flex>

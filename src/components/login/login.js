@@ -1,52 +1,48 @@
 import { Fragment, Component } from "react";
 import FormLogin from "./FormLogin";
-import { Navigate } from 'react-router-dom';
+import { supabase } from '../../supabaseClient'
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-        vlogin: false,
-        username: '',
-        password: '',
+        email: '',
     };
   }
 
-  changeUsername = (event) => {
+  changeEmail = (event) => {
+    console.log('cek email di handle change', event.target.value);
     this.setState({
-      username: event.target.value,
+      email: event.target.value,
     });
   };
 
-  changePassword = (event) => {
-    this.setState({
-      password: event.target.value,
-    });
-  };
-
-  handleSubmit = () => {
-    if(this.state.username === 'admin' && this.state.password === '123456') {
-        this.setState({
-            vlogin: true,
-        });
+  handleSubmit = async () => {
+    const email = this.state.email
+    console.log('cek email', email);
+    try {
+      const { error } = await supabase.auth.signIn({ email })
+      if (error) {
+        throw error
+      } else {
+        alert('Check your email for the login link!')
+      }
+    } catch (error) {
+      alert(error.error_description || error.message)
     }
   };
 
   render() {
 
-    if(this.state.vlogin) {
-        return <Navigate to="/HalamanDua" replace={true} />
-    } else {
-        return (
-            <Fragment>
-                <FormLogin
-                    changeUsername={this.changeUsername}
-                    changePassword={this.changePassword}
-                    onSubmit={this.handleSubmit}
-                />
-            </Fragment>
-        );
-    }
+    return (
+      <Fragment>
+          <FormLogin
+              changeEmail={this.changeEmail}
+              onSubmit={this.handleSubmit}
+          />
+      </Fragment>
+    );
+    
   }
 }
