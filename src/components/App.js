@@ -3,6 +3,7 @@ import { supabase } from '../supabaseClient'
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Login from './login/login';
 import Account from './Account'
+import Header from './menu/Header'
 
 const HalamanSatu = () => {
     return <h1>Hello World</h1>;
@@ -26,14 +27,16 @@ const App = () => {
     return(
         <div>
             {!session ? 
+                <Login />
+                : 
                 <BrowserRouter>
+                    <Header />
+                    {/* <Account key={session.user.id} session={session} /> */}
                     <Routes>
                         <Route path="/" exact element={<HalamanSatu />} />
                         <Route path="/HalamanDua" exact element={<HalamanDua />} />
-                        <Route path="/login" exact element={<Login />} />
                     </Routes>
                 </BrowserRouter>
-                : <Account key={session.user.id} session={session} />
             }
         </div>
     );
