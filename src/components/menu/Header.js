@@ -5,32 +5,16 @@ import {
   Avatar,
   HStack,
   Link,
-  IconButton,
   Button,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
   useDisclosure,
   useColorModeValue,
-  Stack,
+  Stack
 } from '@chakra-ui/react';
 import { supabase } from '../../supabaseClient';
-
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
-    }}
-    href={'#'}>
-    {children}
-  </Link>
-);
 
 export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -74,9 +58,6 @@ export default function Header() {
                 />
               </MenuButton>
               <MenuList>
-              {/* <Button fontSize="sm" type="button" onClick={() => supabase.auth.signOut()} bg={mainColor} w="100%" h="45" mb="20px" color="white" mt="20px" _hover={{bg: "teal.200"}} _active={{bg: mainColor}}>
-                SIGN OUT
-              </Button> */}
                 <MenuItem onClick={() => supabase.auth.signOut()}>Log Out</MenuItem>
               </MenuList>
             </Menu>
