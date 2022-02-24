@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Box,
   Button,
@@ -20,9 +20,28 @@ import {
   Checkbox,
   Spacer
 } from '@chakra-ui/react';
+import { supabase } from '../../supabaseClient';
 
 export default function InputPeternak() {
   const { hasCopied, onCopy } = useClipboard('example@example.com');
+
+  const [nama, setNama] = useState(null);
+  const [provinsi, setProvinsi] = useState(null);
+  const [kecamatan, setKecamatan] = useState(null);
+  const [kelurahan, setKelurahan] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [latitude, setLatitude] = useState(null);
+
+  const handleSubmit = async () => {
+    const { data, error } = await supabase.from('peternak').upsert({ 
+      nama: nama,
+      provinsi: provinsi,
+      kecamatan: kecamatan,
+      kelurahan: kelurahan,
+      longitude: longitude,
+      latitude: latitude
+    })
+  }
 
   return (
     <Flex
@@ -82,7 +101,7 @@ export default function InputPeternak() {
                     <FormLabel>Nama</FormLabel>
 
                     <InputGroup>
-                      <Input type="text" name="nama" placeholder="Nama Peternak" />
+                      <Input value={nama || ''} onChange={(e) => setNama(e.target.value)} type="text" name="nama" placeholder="Nama Peternak" />
                     </InputGroup>
                   </FormControl>
 
@@ -91,6 +110,7 @@ export default function InputPeternak() {
 
                     <InputGroup>
                       <Input
+                        value={provinsi || ''} onChange={(e) => setProvinsi(e.target.value)}
                         type="text"
                         name="provinsi"
                         placeholder="Provinsi Peternak"
@@ -103,6 +123,7 @@ export default function InputPeternak() {
 
                     <InputGroup>
                       <Input
+                        value={kecamatan || ''} onChange={(e) => setKecamatan(e.target.value)}
                         type="text"
                         name="kecamatan"
                         placeholder="Kecamatan Peternak"
@@ -115,6 +136,7 @@ export default function InputPeternak() {
 
                     <InputGroup>
                       <Input
+                        value={kelurahan || ''} onChange={(e) => setKelurahan(e.target.value)}
                         type="text"
                         name="kelurahan"
                         placeholder="Kelurahan Peternak"
@@ -128,6 +150,7 @@ export default function InputPeternak() {
                             <FormLabel>Longitude</FormLabel>
                             <InputGroup>
                             <Input
+                                value={longitude || ''} onChange={(e) => setLongitude(e.target.value)}
                                 type="text"
                                 name="longitute"
                                 placeholder="Longitude"
@@ -142,6 +165,7 @@ export default function InputPeternak() {
 
                             <InputGroup>
                             <Input
+                                value={latitude || ''} onChange={(e) => setLatitude(e.target.value)}
                                 type="text"
                                 name="latitude"
                                 placeholder="Latitude"
@@ -159,7 +183,8 @@ export default function InputPeternak() {
                         color="white"
                         _hover={{
                         bg: 'blue.500',
-                        }}>
+                        }}
+                        onClick={ handleSubmit }>
                         Submit
                     </Button>
                     <Button
