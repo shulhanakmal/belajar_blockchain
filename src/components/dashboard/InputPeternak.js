@@ -21,6 +21,7 @@ import {
   Spacer
 } from '@chakra-ui/react';
 import { supabase } from '../../supabaseClient';
+import { useNavigate } from 'react-router-dom';
 
 export default function InputPeternak() {
   const { hasCopied, onCopy } = useClipboard('example@example.com');
@@ -32,15 +33,35 @@ export default function InputPeternak() {
   const [longitude, setLongitude] = useState(null);
   const [latitude, setLatitude] = useState(null);
 
+  const navigate = useNavigate();
+
   const handleSubmit = async () => {
-    const { data, error } = await supabase.from('peternak').upsert({ 
-      nama: nama,
-      provinsi: provinsi,
-      kecamatan: kecamatan,
-      kelurahan: kelurahan,
-      longitude: longitude,
-      latitude: latitude
-    })
+
+    if(nama && 
+      provinsi &&
+      kecamatan &&
+      kelurahan &&
+      longitude &&
+      latitude
+    ) {
+      try {
+        const { data, error } = await supabase.from('peternak').upsert({ 
+          nama: nama,
+          provinsi: provinsi,
+          kecamatan: kecamatan,
+          kelurahan: kelurahan,
+          longitude: longitude,
+          latitude: latitude
+        })
+
+        navigate("/peternak")
+      } catch (e) {
+        alert(e.message);
+      }
+    } else {
+      alert("Harap isi dengan lengkap");
+    }
+
   }
 
   return (
