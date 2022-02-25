@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../../supabaseClient';
 import {
   Box,
   Button,
@@ -31,8 +32,32 @@ import {
   Center
 } from '@chakra-ui/react';
 
-export default function Peternak() {
+export default function Peternak({ session }) {
   const { hasCopied, onCopy } = useClipboard('example@example.com');
+  const [peternaks, setPeternaks] = useState(null);
+
+  useEffect(() => {
+    getPeternak()
+  }, [session])
+
+  async function getPeternak() {
+    try {
+      let { data, error, status } = await supabase
+        .from('peternak')
+        .select()
+
+      if (error && status !== 406) {
+        throw error
+      }
+
+      if (data) {
+        setPeternaks(data)
+      }
+    } catch (error) {
+      alert(error.message)
+    }
+  }
+console.log('cek ini mal', peternaks);
 
   return (
     <Flex
@@ -100,14 +125,44 @@ export default function Peternak() {
                                 <Th>Latitude</Th>
                             </Tr>
                         </Thead>
+                        <Tbody>
+                          {peternaks && peternaks.map(function(p, i) {
+                            return (
+                              <Tr key={i}>
+                                <Td>
+                                  { p.nama }
+                                </Td>
+                                <Td>
+                                  { p.provinsi }
+                                </Td>
+                                <Td>
+                                  { p.kecamatan }
+                                </Td>
+                                <Td>
+                                  { p.kelurahan }
+                                </Td>
+                                <Td>
+                                  { p.longitude }
+                                </Td>
+                                <Td>
+                                  { p.latitude }
+                                </Td>
+                              </Tr>
+                            );
+                          })}
+                        </Tbody>
                     </Table>
                 </Flex>
-                <Flex mt='8' align="center" justify="center">
+                { 
+                  peternaks === null || peternaks.length === 0 ?
+                  <Flex mt='8' align="center" justify="center">
                     <Heading fontSize={{
-                base: '2xl',
-                md: '3xl',
-              }}>No Data</Heading>
-                </Flex>
+                      base: '2xl',
+                      md: '3xl',
+                    }}>No Data</Heading>
+                  </Flex> : 
+                  <Flex mt='8' align="center" justify="center"></Flex>
+                }
               </Box>
             </Stack>
           </VStack>
