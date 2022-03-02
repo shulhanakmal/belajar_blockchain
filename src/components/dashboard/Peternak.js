@@ -110,7 +110,7 @@ export default function Peternak({ session }) {
 
           await alert("Data berhasil ditulis ke blockchain");
 
-          await navigate("/")
+          await navigate("/Data-Blockchain")
           
         } catch (e) {
           alert(e.message);

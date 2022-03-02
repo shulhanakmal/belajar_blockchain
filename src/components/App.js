@@ -6,6 +6,7 @@ import Account from './Account';
 import Header from './menu/Header';
 import Peternak from './dashboard/Peternak';
 import InputPeternak from './dashboard/InputPeternak';
+import DataBlockchain from './dashboard/DataBlockchain';
 
 const HalamanSatu = () => {
     return <h1>Hello World</h1>;
@@ -41,6 +42,7 @@ const App = () => {
                         {/* Halaman Peternak */}
                         <Route path="/Peternak" exact element={<Peternak />} />
                         <Route path="/Peternak/Add" exact element={<InputPeternak />} />
+                        <Route path="/Data-Blockchain" exact element={<DataBlockchain />} />
                     </Routes>
                 </BrowserRouter>
             }
