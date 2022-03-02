@@ -39,6 +39,10 @@ import {
   ModalFooter,
   ModalCloseButton
 } from '@chakra-ui/react';
+import Web3Modal from "web3modal";
+import { ethers } from 'ethers';
+import PeternakAbi from '../../abi/PeternakAbi';
+import {useNavigate} from "react-router-dom";
 
 const Overlay = (props) => (
   <ModalOverlay
@@ -54,12 +58,18 @@ export default function Peternak({ session }) {
   const [peternaks, setPeternaks] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [overlay, setOverlay] = useState('');
+  
+  const navigate = useNavigate();
 
   useEffect(() => {
     getPeternak()
   }, [session])
 
   async function handleClick(id) {
+
+    const contractAddress = process.env.REACT_APP_CONTRACTADDRESS;
+
+    console.log('contract', contractAddress);
 
     if(id) {
 
@@ -72,7 +82,41 @@ export default function Peternak({ session }) {
 
         console.log('cek data', data);
 
-        // navigate("/peternak")
+        // insert ke blockchain
+        try {
+
+          const web3Modal = new Web3Modal();
+          const connection = await web3Modal.connect();
+          const provider = new ethers.providers.Web3Provider(connection);
+          const signer = provider.getSigner()
+
+          var json = JSON.stringify(data);
+
+          const updateData = new FormData();
+          // input ke blockchain
+            let contract = new ethers.Contract(contractAddress, PeternakAbi, signer)
+            let transaction = await contract.StoreAddFarmer(
+              data.id,
+              data.nama,
+              data.kelurahan,
+              // sha256(json),
+              json,
+              data.created_at
+            )
+            console.log(transaction.hash);
+            await transaction.wait()
+
+          // end input ke blockchain
+
+          await alert("Data berhasil ditulis ke blockchain");
+
+          await navigate("/")
+          
+        } catch (e) {
+          alert(e.message);
+        }
+        // end insert ke blockchain
+
       } catch (e) {
         alert(e.message);
       }
