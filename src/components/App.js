@@ -7,6 +7,7 @@ import Header from './menu/Header';
 import Peternak from './dashboard/Peternak';
 import InputPeternak from './dashboard/InputPeternak';
 import DataBlockchain from './dashboard/DataBlockchain';
+import Dashboard from './dashboard/Dashboard';
 
 const HalamanSatu = () => {
     return <h1>Hello World</h1>;
@@ -36,7 +37,7 @@ const App = () => {
                     <Header />
                     {/* <Account key={session.user.id} session={session} /> */}
                     <Routes>
-                        <Route path="/" exact element={<HalamanSatu />} />
+                        <Route path="/" exact element={<Dashboard />} />
                         <Route path="/HalamanDua" exact element={<HalamanDua />} />
 
                         {/* Halaman Peternak */}
