@@ -7,29 +7,19 @@ import {
   FormControl,
   FormLabel,
   Heading,
-  IconButton,
   Input,
   InputGroup,
-  InputLeftElement,
-  Link,
   Stack,
-  Textarea,
-  Tooltip,
   useClipboard,
   useColorModeValue,
   VStack,
-  Checkbox,
   Text,
-  Spacer,
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
-  Center,
   useDisclosure,
   Modal,
   ModalBody,
@@ -58,7 +48,7 @@ const Overlay = (props) => (
   />
 );
 
-export default function Peternak({ session }) {
+export default function Panen({ session }) {
   const { hasCopied, onCopy } = useClipboard("example@example.com");
   const [peternaks, setPeternaks] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -100,7 +90,7 @@ export default function Peternak({ session }) {
   const handleSubmit = async () => {
     if (nama && provinsi && kecamatan && kelurahan && longitude && latitude) {
       try {
-        const { data, error } = await supabase.from("peternak").upsert({
+        const { data, error } = await supabase.from("panen").upsert({
           nama: nama,
           provinsi: provinsi,
           kecamatan: kecamatan,
@@ -109,7 +99,7 @@ export default function Peternak({ session }) {
           latitude: latitude,
         });
 
-        window.open("/peternak", "_self");
+        window.open("/panen", "_self");
       } catch (e) {
         alert(e.message);
       }
@@ -126,7 +116,7 @@ export default function Peternak({ session }) {
     if (id) {
       try {
         const { data, error } = await supabase
-          .from("peternak")
+          .from("panen")
           .select()
           .eq("id", id)
           .single();
@@ -177,7 +167,7 @@ export default function Peternak({ session }) {
 
   async function getPeternakSupabase() {
     try {
-      let { data, error, status } = await supabase.from("peternak").select();
+      let { data, error, status } = await supabase.from("panen").select();
 
       if (error && status !== 406) {
         throw error;
@@ -215,13 +205,13 @@ export default function Peternak({ session }) {
               }}
               color="#333"
             >
-              Data Peternak
+              Data Panen
             </Heading>
             <Tabs variant="soft-rounded" colorScheme="orange" mt="5">
               <TabList>
                 <Tab>Data</Tab>
-                <Tab>Input Data Peternak</Tab>
-                <Tab>Traceability Peternak</Tab>
+                <Tab>Input Data Panen</Tab>
+                <Tab>Traceability Panen</Tab>
               </TabList>
               <TabPanels>
                 <TabPanel>
@@ -290,27 +280,9 @@ export default function Peternak({ session }) {
                                   })}
                               </Tbody>
                             </Table>
-                            {peternaks === null || peternaks.length === 0 ? (
-                              <Flex mt="8" align="center" justify="center">
-                                <Heading
-                                  fontSize={{
-                                    base: "2xl",
-                                    md: "3xl",
-                                  }}
-                                >
-                                  No Data
-                                </Heading>
-                              </Flex>
-                            ) : (
-                              <Flex
-                                mt="8"
-                                align="center"
-                                justify="center"
-                              ></Flex>
-                            )}
                           </Flex>
-                          {data === null || data.length === 0 ? (
-                            <Flex mt="8" align="center" justify="center">
+                          {peternaks === null || peternaks.length === 0 ? (
+                            <Flex m="8" align="center" justify="center">
                               <Heading
                                 fontSize={{
                                   base: "2xl",
