@@ -11,31 +11,15 @@ import {
   DrawerContent,
   Text,
   useDisclosure,
-  BoxProps,
-  FlexProps,
 } from "@chakra-ui/react";
 import { FiTrendingUp, FiTruck, FiSettings, FiMenu } from "react-icons/fi";
 import { GiBeehive, GiBee, GiBarn } from "react-icons/gi";
 import { BsSpeedometer } from "react-icons/bs";
-import { IconType } from "react-icons";
 import { ReactText } from "react";
 
-interface LinkItemProps {
-  name: string;
-  icon: IconType;
-}
-const LinkItems: Array<LinkItemProps> = [
-  { name: "Dashboard", icon: BsSpeedometer, href: "/" },
-  { name: "Peternak", icon: GiBee, href: "/peternak" },
-  { name: "Panen", icon: GiBeehive, href: "/panen" },
-  { name: "Produksi & Pengemasan", icon: FiTruck, href: "#" },
-  { name: "Inventori", icon: GiBarn, href: "#" },
-  { name: "Penjualan", icon: FiTrendingUp, href: "#" },
-  // { name: "Pengaturan", icon: FiSettings, href: "#" },
-];
-
-export default function SimpleSidebar({ children }: { children: ReactNode }) {
+export default function SimpleSidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box minH="8vw" bg={useColorModeValue("gray.100", "gray.900")}>
       <SidebarContent
@@ -57,18 +41,14 @@ export default function SimpleSidebar({ children }: { children: ReactNode }) {
       </Drawer>
       {/* mobilenav */}
       <MobileNav display={{ base: "flex", md: "none" }} onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
-      </Box>
+      <Box ml={{ base: 0, md: 60 }} p="4"></Box>
     </Box>
   );
 }
 
-interface SidebarProps extends BoxProps {
-  onClose: () => void;
-}
+const SidebarContent = ({ onClose, ...rest }) => {
+  const pathname = window.location.pathname;
 
-const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
     <Box
       bg="#f3eddc"
@@ -82,23 +62,149 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       <Flex h="9vw" alignItems="center" mx="8" justifyContent="space-between">
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem
-          key={link.name}
-          icon={link.icon}
-          href={link.href}
-          _hover={{
-            textDecoration: "none",
-            bg: "#ed702d",
-            color: "white",
-          }}
-          fontSize={"18px"}
-          color={"#ed702d"}
-          bg="#f2cca3"
-        >
-          <strong>{link.name}</strong>
-        </NavItem>
-      ))}
+      {(() => {
+        if (pathname == "/") {
+          return (
+            <NavItem
+              key="Dashboard"
+              icon={BsSpeedometer}
+              href="/"
+              _hover={{
+                textDecoration: "none",
+                bg: "#ed702d",
+                color: "white",
+              }}
+              fontSize={"18px"}
+              color={"white"}
+              bg="#ed702d"
+            >
+              <strong>Dashboard</strong>
+            </NavItem>
+          );
+        } else {
+          return (
+            <NavItem
+              key="Dashboard"
+              icon={BsSpeedometer}
+              href="/"
+              _hover={{
+                textDecoration: "none",
+                bg: "#ed702d",
+                color: "white",
+              }}
+              fontSize={"18px"}
+              color={"#ed702d"}
+              bg="#f2cca3"
+            >
+              <strong>Dashboard</strong>
+            </NavItem>
+          );
+        }
+      })()}
+      {(() => {
+        if (
+          pathname == "/peternak" ||
+          pathname == "/peternakan" ||
+          pathname == "/stup"
+        ) {
+          return (
+            <NavItem
+              key="Peternakan"
+              icon={GiBee}
+              href="/peternak"
+              _hover={{
+                textDecoration: "none",
+                bg: "#ed702d",
+                color: "white",
+              }}
+              fontSize={"18px"}
+              color={"white"}
+              bg="#ed702d"
+            >
+              <strong>Peternak</strong>
+            </NavItem>
+          );
+        } else {
+          return (
+            <NavItem
+              key="Peternakan"
+              icon={GiBee}
+              href="/peternak"
+              _hover={{
+                textDecoration: "none",
+                bg: "#ed702d",
+                color: "white",
+              }}
+              fontSize={"18px"}
+              color={"#ed702d"}
+              bg="#f2cca3"
+            >
+              <strong>Peternak</strong>
+            </NavItem>
+          );
+        }
+      })()}
+
+      <NavItem
+        key="Panen"
+        icon={GiBeehive}
+        href="/panen"
+        _hover={{
+          textDecoration: "none",
+          bg: "#ed702d",
+          color: "white",
+        }}
+        fontSize={"18px"}
+        color={"#ed702d"}
+        bg="#f2cca3"
+      >
+        <strong>Panen</strong>
+      </NavItem>
+      <NavItem
+        key="Produksi & Pengemasan"
+        icon={FiTruck}
+        href="#"
+        _hover={{
+          textDecoration: "none",
+          bg: "#ed702d",
+          color: "white",
+        }}
+        fontSize={"18px"}
+        color={"#ed702d"}
+        bg="#f2cca3"
+      >
+        <strong>Produksi & Pengemasan</strong>
+      </NavItem>
+      <NavItem
+        key="Inventori"
+        icon={GiBarn}
+        href="#"
+        _hover={{
+          textDecoration: "none",
+          bg: "#ed702d",
+          color: "white",
+        }}
+        fontSize={"18px"}
+        color={"#ed702d"}
+        bg="#f2cca3"
+      >
+        <strong>Inventori</strong>
+      </NavItem>
+      <NavItem
+        key="Penjualan"
+        icon={FiTrendingUp}
+        href="#"
+        _hover={{
+          textDecoration: "none",
+          bg: "#ed702d",
+          color: "white",
+        }}
+        fontSize={"18px"}
+        color={"#ed702d"}
+        bg="#f2cca3"
+      >
+        <strong>Penjualan</strong>
+      </NavItem>
       <NavItem
         key="Pengaturan"
         icon={FiSettings}
@@ -119,11 +225,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   );
 };
 
-interface NavItemProps extends FlexProps {
-  icon: IconType;
-  children: ReactText;
-}
-const NavItem = ({ href, icon, children, ...rest }: NavItemProps) => {
+const NavItem = ({ href, icon, children, ...rest }) => {
   return (
     <Link
       href={href}
@@ -161,10 +263,7 @@ const NavItem = ({ href, icon, children, ...rest }: NavItemProps) => {
   );
 };
 
-interface MobileProps extends FlexProps {
-  onOpen: () => void;
-}
-const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+const MobileNav = ({ onOpen, ...rest }) => {
   return (
     <Flex
       ml={{ base: 0, md: 60 }}

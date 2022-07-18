@@ -68,7 +68,6 @@ export default function Panen({ session }) {
 
   useEffect(() => {
     getPeternakSupabase();
-    getPeternakBlockchain();
   }, [session]);
 
   async function getPeternakBlockchain() {
@@ -211,7 +210,7 @@ export default function Panen({ session }) {
               <TabList>
                 <Tab>Data</Tab>
                 <Tab>Input Data Panen</Tab>
-                <Tab>Traceability Panen</Tab>
+                <Tab onClick={getPeternakBlockchain}>Traceability Panen</Tab>
               </TabList>
               <TabPanels>
                 <TabPanel>
@@ -282,7 +281,7 @@ export default function Panen({ session }) {
                             </Table>
                           </Flex>
                           {peternaks === null || peternaks.length === 0 ? (
-                            <Flex m="8" align="center" justify="center">
+                            <Flex m="8" mb="8" align="center" justify="center">
                               <Heading
                                 fontSize={{
                                   base: "2xl",
@@ -516,7 +515,7 @@ export default function Panen({ session }) {
                             </Table>
                           </Flex>
                           {data === null || data.length === 0 ? (
-                            <Flex mt="8" align="center" justify="center">
+                            <Flex mt="8" mb="8" align="center" justify="center">
                               <Heading
                                 fontSize={{
                                   base: "2xl",
