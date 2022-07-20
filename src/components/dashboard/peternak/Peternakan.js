@@ -32,6 +32,8 @@ import {
   TableCaption,
   Center,
   useDisclosure,
+  UnorderedList,
+  ListItem,
   Modal,
   ModalBody,
   ModalOverlay,
@@ -62,12 +64,14 @@ export default function Peternakan({ session }) {
   const [peternak, setPeternak] = useState(null);
   const [peternakan, setPeternakan] = useState(null);
   const [detailPeternakan, setDetailPeternakan] = useState(null);
+  const [detailStup, setDetailStup] = useState(null);
 
   const [currentPeternakan, setCurrentPeternakan] = useState([]);
   const [currentPage, setCurrentPage] = useState(null);
   const [totalPage, setTotalPage] = useState(null);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [scrollBehavior, setScrollBehavior] = React.useState("inside");
   const [overlay, setOverlay] = useState("");
 
   const [data, setData] = useState(null);
@@ -110,9 +114,9 @@ export default function Peternakan({ session }) {
         });
 
         temp = data[0].id;
-        if (totalPeternakan < 10) {
+        if (totalPeternakan < 9) {
           currentKodePeternakan = "PN00" + (totalPeternakan + 1);
-        } else if (totalPeternakan < 100) {
+        } else if (totalPeternakan < 99) {
           currentKodePeternakan = "PN0" + (totalPeternakan + 1);
         } else {
           currentKodePeternakan = "PN" + (totalPeternakan + 1);
@@ -146,6 +150,7 @@ export default function Peternakan({ session }) {
 
   async function getSinglePeternakan(id) {
     if (id) {
+      var temp = "0";
       try {
         const { data, error } = await supabase
           .from("rel_peternak_peternakan")
@@ -154,7 +159,21 @@ export default function Peternakan({ session }) {
           .single();
 
         if (data) {
+          temp = data.fk_peternakan.id;
           setDetailPeternakan(data);
+        }
+      } catch (e) {
+        alert(e.message);
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from("rel_peternakan_stup")
+          .select("*, fk_peternakan(*), fk_stup(*)")
+          .eq("fk_peternakan", temp);
+
+        if (data) {
+          setDetailStup(data);
         }
       } catch (e) {
         alert(e.message);
@@ -203,6 +222,7 @@ export default function Peternakan({ session }) {
 
   const closeModal = async () => {
     setDetailPeternakan(null);
+    setDetailStup(null);
     onClose();
   };
 
@@ -375,12 +395,16 @@ export default function Peternakan({ session }) {
                     isOpen={isOpen}
                     onClose={closeModal}
                     size="4xl"
+                    scrollBehavior={scrollBehavior}
                   >
                     {overlay}
                     <ModalContent p="4">
                       {(() => {
-                        if (isOpen && detailPeternakan != null) {
-                          console.log(detailPeternakan);
+                        if (
+                          isOpen &&
+                          detailPeternakan != null &&
+                          detailStup != null
+                        ) {
                           return (
                             <>
                               <ModalHeader>
@@ -400,12 +424,12 @@ export default function Peternakan({ session }) {
                                       <Tr>
                                         <Th>
                                           <Heading size="sm" mb="4">
-                                            Data Peternakan:
+                                            Data Peternak:
                                           </Heading>
                                         </Th>
                                         <Th>
                                           <Heading size="sm" mb="4">
-                                            Data Peternak:
+                                            Data Peternakan:
                                           </Heading>
                                         </Th>
                                         <Th>
@@ -417,6 +441,19 @@ export default function Peternakan({ session }) {
                                     </Thead>
                                     <Tbody>
                                       <Tr>
+                                        <Td verticalAlign="top">
+                                          <Text>
+                                            <strong>Kode Peternak:</strong>{" "}
+                                            {
+                                              detailPeternakan.fk_peternak
+                                                .kode_peternak
+                                            }
+                                          </Text>
+                                          <Text>
+                                            Nama:{" "}
+                                            {detailPeternakan.fk_peternak.nama}
+                                          </Text>
+                                        </Td>
                                         <Td verticalAlign="top">
                                           <Text>
                                             <strong>Kode Peternakan:</strong>{" "}
@@ -470,18 +507,19 @@ export default function Peternakan({ session }) {
                                         </Td>
                                         <Td verticalAlign="top">
                                           <Text>
-                                            <strong>Kode Peternak:</strong>{" "}
-                                            {
-                                              detailPeternakan.fk_peternak
-                                                .kode_peternak
-                                            }
+                                            <strong>List Stup:</strong>
                                           </Text>
-                                          <Text>
-                                            Nama:{" "}
-                                            {detailPeternakan.fk_peternak.nama}
-                                          </Text>
+                                          <UnorderedList>
+                                            {detailStup &&
+                                              detailStup.map(function (p, i) {
+                                                return (
+                                                  <ListItem>
+                                                    {p.fk_stup.no_stup}
+                                                  </ListItem>
+                                                );
+                                              })}
+                                          </UnorderedList>
                                         </Td>
-                                        <Td verticalAlign="top">Data Stup</Td>
                                       </Tr>
                                     </Tbody>
                                   </Table>

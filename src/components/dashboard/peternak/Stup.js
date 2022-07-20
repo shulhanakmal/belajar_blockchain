@@ -95,13 +95,13 @@ export default function Stup({ session }) {
 
         var kodePeternakan = query.data[0].kode_peternakan;
 
-        if (totalStupRecurring < 10) {
+        if (totalStupRecurring < 9) {
           currentKodeStup =
             kodePeternak + kodePeternakan + "ST000" + (totalStupRecurring + 1);
-        } else if (totalStupRecurring < 100) {
+        } else if (totalStupRecurring < 99) {
           currentKodeStup =
             kodePeternak + kodePeternakan + "ST00" + (totalStupRecurring + 1);
-        } else if (totalStupRecurring < 1000) {
+        } else if (totalStupRecurring < 999) {
           currentKodeStup =
             kodePeternak + kodePeternakan + "ST0" + (totalStupRecurring + 1);
         } else {
@@ -440,16 +440,6 @@ export default function Stup({ session }) {
                               onClick={handleSubmit}
                             >
                               Submit
-                            </Button>
-                            <Button
-                              colorScheme="red"
-                              bg="red.400"
-                              color="white"
-                              _hover={{
-                                bg: "blue.500",
-                              }}
-                            >
-                              Reset
                             </Button>
                           </Flex>
                         </Box>
