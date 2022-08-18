@@ -330,4 +330,4 @@ const TraceabilityAbi = [
   },
 ];
 
-module.exports = TraceabilityAbi;
+export default TraceabilityAbi;
