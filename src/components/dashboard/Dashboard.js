@@ -35,79 +35,82 @@ import {
 import * as am5 from "@amcharts/amcharts5";
 import * as am5percent from "@amcharts/amcharts5/percent";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+import Piechart from "./Piechart";
 
 export default function Dashboard({ session }) {
-  const { hasCopied, onCopy } = useClipboard("example@example.com");
-  const [pieData, setPieData] = useState(null);
+  // const { hasCopied, onCopy } = useClipboard("example@example.com");
+  // const [pieData, setPieData] = useState(null);
 
-  useEffect(() => {
-    getData();
-  }, [session]);
+  // useEffect(() => {
+  //   getData();
+  // }, [session]);
 
-  async function getData() {
-    const arr = [];
-    try {
-      let { data, error, status } = await supabase
-        .rpc("peternak_pie_chart")
-        .select(`*`);
+  // async function getData() {
+  //   const arr = [];
+  //   try {
+  //     let { data, error, status } = await supabase
+  //       .rpc("peternakan_pie_chart")
+  //       //.rpc("data_peternakan")
+  //       //.rpc("data_peternak_pie_chart")
+  //       .select(`*`);
 
-      if (error && status !== 406) {
-        throw error;
-      }
+  //     if (error && status !== 406) {
+  //       throw error;
+  //     }
 
-      if (data) {
-        setPieData(data);
-      }
-    } catch (error) {
-      alert(error.message);
-    }
-  }
+  //     if (data) {
+  //       setPieData(data);
+  //     }
+  //   } catch (error) {
+  //     alert(error.message);
+  //   }
+  // }
 
-  if (pieData) {
-    // console.log('cek ini mal', {pieData});
-    // code untuk chart
+  // if (pieData) {
+  //   // console.log('cek ini mal', {pieData});
+  //   // code untuk chart
 
-    // Create root and chart
-    var root = am5.Root.new("chartdiv");
+  //   // Create root and chart
+  //   var root = am5.Root.new("chartdiv");
 
-    root.setThemes([am5themes_Animated.new(root)]);
+  //   root.setThemes([am5themes_Animated.new(root)]);
 
-    var chart = root.container.children.push(
-      am5percent.PieChart.new(root, {
-        layout: root.verticalLayout,
-      })
-    );
+  //   var chart = root.container.children.push(
+  //     am5percent.PieChart.new(root, {
+  //       layout: root.verticalLayout,
+  //     })
+  //   );
 
-    // Define data
-    const label = [];
-    const value = [];
-    const dataChart = [];
+  //   // Define data
+  //   const label = [];
+  //   const value = [];
+  //   const dataChart = [];
 
-    pieData[0].labelkelurahan.map(function (p, i) {
-      label.push(p);
-    });
-    pieData[0].valuekelurahan.map(function (v) {
-      value.push(v);
-    });
+  //   pieData[0].labelkelurahan.map(function(p, i) {
+  //     label.push(p);
+  //   });
+  //   pieData[0].valuekelurahan.map(function(v) {
+  //     value.push(v);
+  //   });
 
-    label.map(function (l, i) {
-      dataChart.push({ labelkelurahan: l, valuekelurahan: value[i] });
-    });
+  //   label.map(function(l, i) {
+  //     dataChart.push({ labelkelurahan: l, valuekelurahan: value[i] });
+  //   });
 
-    var dataPie = dataChart;
+  //   var dataPie = dataChart;
 
-    // Create series
-    var series = chart.series.push(
-      am5percent.PieSeries.new(root, {
-        name: "Series",
-        valueField: "valuekelurahan",
-        categoryField: "labelkelurahan",
-      })
-    );
-    series.data.setAll(dataPie);
+  //   // Create series
+  //   var series = chart.series.push(
+  //     am5percent.PieSeries.new(root, {
+  //       name: "Series",
+  //       valueField: "valuekelurahan",
+  //       categoryField: "labelkelurahan",
+  //     })
+  //   );
+  //   series.data.setAll(dataPie);
 
-    // end code untuk chart
-  }
+  //   // end code untuk chart
+  // }
 
   return (
     <>
@@ -153,9 +156,10 @@ export default function Dashboard({ session }) {
                       </Box>
                       <Spacer />
                     </Flex>
-                    <Flex mt="5">
+                    {/*<Flex mt="5">
                       <div id="chartdiv"></div>
-                    </Flex>
+                    </Flex>*/}
+                    <Piechart pierad="80" piefont="18px"/>
                   </Box>
                 </Stack>
               </VStack>

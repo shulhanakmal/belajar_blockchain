@@ -1,5 +1,8 @@
+// file ini disalin dari file peternak yang masih menggunakan aksi: tulis blockchain.
+// sementara bagian blockchainnya ditutup, karena masih perlu penyesuaian.
+// sebaiknya lihat penjualan2, yang disalin dari file peternak tanpa blockchain dulu
 import React, { useState, useEffect } from "react";
-import { supabase } from "../../supabaseClient";
+import { supabase } from "../../../supabaseClient";
 import {
   Box,
   Button,
@@ -33,10 +36,11 @@ import {
   TabPanel,
   TabList,
   TabPanels,
+  TableContainer,
 } from "@chakra-ui/react";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
-import PeternakAbi from "../../abi/PeternakAbi";
+import TraceabilityAbi from "../../../abi/TraceabilityAbi";
 import { useNavigate } from "react-router-dom";
 
 const Overlay = (props) => (
@@ -48,37 +52,53 @@ const Overlay = (props) => (
   />
 );
 
-export default function Panen({ session }) {
+// export default function Penjualan({ session }) {
+export default function Traceability({ session }) {
   const { hasCopied, onCopy } = useClipboard("example@example.com");
-  const [peternaks, setPeternaks] = useState(null);
+  // const [peternaks, setPeternaks] = useState(null);
+  const [traceability, setTraceability] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [overlay, setOverlay] = useState("");
 
   const [data, setData] = useState(null);
-  const contractAddress = process.env.REACT_APP_CONTRACTADDRESS;
+  const contractAddress = "0x0a6157DBDD8E0bDd38AE61384fC0590FfD372206";
 
-  const [nama, setNama] = useState(null);
-  const [provinsi, setProvinsi] = useState(null);
-  const [kecamatan, setKecamatan] = useState(null);
-  const [kelurahan, setKelurahan] = useState(null);
-  const [longitude, setLongitude] = useState(null);
-  const [latitude, setLatitude] = useState(null);
+  // const [nama, setNama] = useState(null);
+  // const [provinsi, setProvinsi] = useState(null);
+  // const [kecamatan, setKecamatan] = useState(null);
+  // const [kelurahan, setKelurahan] = useState(null);
+  // const [longitude, setLongitude] = useState(null);
+  // const [latitude, setLatitude] = useState(null);
+  const [no_kemas, setNoKemas] = useState(null);
+  const [volume_hasil_kemas_botol, setVolumeHasilKemasBotol] = useState(null);
+  const [area_distribusi, setAreaDistribusi] = useState(null);
+  const [tgl_selesai_prod, setTglSelesaiProd] = useState(null);
+  const [tgl_kadaluarsa, setTglKadaluarsa] = useState(null);
+  const [no_kantung_panen, setNoKantungPanen] = useState(null);
+  const [no_halal, setNoHalal] = useState(null);
+  const [no_bpom, setNoBPOM] = useState(null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPeternakSupabase();
+    // getPeternakSupabase();
+    getTraceabilitySupabase();
   }, [session]);
 
-  async function getPeternakBlockchain() {
+  // async function getPeternakBlockchain() {
+  async function getTraceabilityBlockchain() {
     try {
       const web3Modal = new Web3Modal();
       const connection = await web3Modal.connect();
       const provider = new ethers.providers.Web3Provider(connection);
       const signer = provider.getSigner();
 
-      let contract = new ethers.Contract(contractAddress, PeternakAbi, signer);
-      let transaction = await contract.getAllfarmer();
+      let contract = new ethers.Contract(
+        contractAddress,
+        TraceabilityAbi,
+        signer
+      );
+      let transaction = await contract.getAlltraceability();
 
       setData(transaction);
     } catch (error) {
@@ -87,18 +107,38 @@ export default function Panen({ session }) {
   }
 
   const handleSubmit = async () => {
-    if (nama && provinsi && kecamatan && kelurahan && longitude && latitude) {
+    // if (nama && provinsi && kecamatan && kelurahan && longitude && latitude) {
+    if (
+      no_kemas &&
+      volume_hasil_kemas_botol &&
+      area_distribusi &&
+      tgl_selesai_prod &&
+      tgl_kadaluarsa &&
+      no_kantung_panen &&
+      no_halal &&
+      no_bpom
+    ) {
       try {
-        const { data, error } = await supabase.from("panen").upsert({
-          nama: nama,
-          provinsi: provinsi,
-          kecamatan: kecamatan,
-          kelurahan: kelurahan,
-          longitude: longitude,
-          latitude: latitude,
+        // const { data, error } = await supabase.from("panen").upsert({
+        const { data, error } = await supabase.from("log_kemas").upsert({
+          // nama: nama,
+          // provinsi: provinsi,
+          // kecamatan: kecamatan,
+          // kelurahan: kelurahan,
+          // longitude: longitude,
+          // latitude: latitude,
+          no_kemas: no_kemas,
+          volume_hasil_kemas_botol: volume_hasil_kemas_botol,
+          area_distribusi: area_distribusi,
+          tgl_selesai_prod: tgl_selesai_prod,
+          tgl_kadaluarsa: tgl_kadaluarsa,
+          no_kantung_panen: no_kantung_panen,
+          no_halal: no_halal,
+          no_bpom: no_bpom,
         });
 
-        window.open("/panen", "_self");
+        // window.open("/panen", "_self");
+        window.open("/log_kemas", "_self");
       } catch (e) {
         alert(e.message);
       }
@@ -108,14 +148,15 @@ export default function Panen({ session }) {
   };
 
   async function handleClick(id) {
-    const contractAddress = process.env.REACT_APP_CONTRACTADDRESS;
+    const contractAddress = "0x0a6157DBDD8E0bDd38AE61384fC0590FfD372206";
 
     console.log("contract", contractAddress);
 
     if (id) {
       try {
         const { data, error } = await supabase
-          .from("panen")
+          // .from("panen")
+          .from("log_kemas")
           .select()
           .eq("id", id)
           .single();
@@ -135,14 +176,28 @@ export default function Panen({ session }) {
           // input ke blockchain
           let contract = new ethers.Contract(
             contractAddress,
-            PeternakAbi,
+            TraceabilityAbi,
             signer
           );
-          let transaction = await contract.StoreAddFarmer(
+
+          for (const dataObject in data) {
+            if (
+              `${data[dataObject]}` == null ||
+              `${data[dataObject]}` == "null"
+            ) {
+              data[dataObject] = "";
+            }
+          }
+          let transaction = await contract.StoreAddTraceability(
             data.id,
-            data.nama,
-            data.kelurahan,
-            // sha256(json),
+            data.no_kemas,
+            data.volume_hasil_kemas_botol,
+            data.area_distribusi,
+            data.tgl_selesai_prod,
+            data.tgl_kadaluarsa,
+            data.no_kantung_panen,
+            data.no_halal,
+            data.no_bpom,
             json,
             data.created_at
           );
@@ -152,6 +207,7 @@ export default function Panen({ session }) {
           // end input ke blockchain
 
           await alert("Data berhasil ditulis ke blockchain");
+          await navigate("/traceability");
         } catch (e) {
           alert(e.message);
         }
@@ -164,16 +220,19 @@ export default function Panen({ session }) {
     }
   }
 
-  async function getPeternakSupabase() {
+  // async function getPeternakSupabase() {
+  async function getTraceabilitySupabase() {
     try {
-      let { data, error, status } = await supabase.from("panen").select();
+      // let { data, error, status } = await supabase.from("panen").select();
+      let { data, error, status } = await supabase.from("log_kemas").select();
 
       if (error && status !== 406) {
         throw error;
       }
 
       if (data) {
-        setPeternaks(data);
+        // setPeternaks(data);
+        setTraceability(data);
       }
     } catch (error) {
       alert(error.message);
@@ -204,13 +263,18 @@ export default function Panen({ session }) {
               }}
               color="#333"
             >
-              Data Panen
+              {/*Data Panen*/}
+              Data Traceability
             </Heading>
             <Tabs variant="soft-rounded" colorScheme="orange" mt="5">
               <TabList>
-                <Tab>Data</Tab>
-                <Tab>Input Data Panen</Tab>
-                <Tab onClick={getPeternakBlockchain}>Traceability Panen</Tab>
+                <Tab>Data Traceability</Tab>
+                {/* <Tab>Input Data Panen</Tab> */}
+                {/*<Tab>Input Data Traceability</Tab>*/}
+                {/*<Tab onClick={getPeternakBlockchain}>Traceability Panen</Tab>*/}
+                <Tab onClick={getTraceabilityBlockchain}>
+                  Traceability Pengemasan
+                </Tab>
               </TabList>
               <TabPanels>
                 <TabPanel>
@@ -229,58 +293,86 @@ export default function Panen({ session }) {
                             "whiteAlpha.900"
                           )}
                           shadow="base"
-                          minW="75vw"
+                          w="75vw"
                         >
                           <Flex>
-                            <Table variant="simple">
-                              <Thead>
-                                <Tr>
+                            <TableContainer>
+                              <Table variant="simple">
+                                <Thead>
+                                  <Tr>
+                                    {/*
                                   <Th>Nama</Th>
                                   <Th>Provinsi</Th>
                                   <Th>Kecamatan</Th>
                                   <Th>Kelurahan</Th>
                                   <Th>Logitude</Th>
                                   <Th>Latitude</Th>
-                                  <Th>Aksi</Th>
-                                </Tr>
-                              </Thead>
-                              <Tbody>
-                                {peternaks &&
-                                  peternaks.map(function (p, i) {
-                                    return (
-                                      <Tr key={i}>
+                                  */}
+                                    <Th>No. Kemas</Th>
+                                    <Th>Volume Hasil Kemas (Botol)</Th>
+                                    <Th>Area Distribusi</Th>
+                                    <Th>Tanggal Selesai Produksi</Th>
+                                    <Th>Tanggal Kadaluarsa</Th>
+                                    <Th>No. Kantung Panen</Th>
+                                    <Th>No. Halal</Th>
+                                    <Th>No. BPOM</Th>
+                                    <Th>Aksi</Th>
+                                  </Tr>
+                                </Thead>
+                                <Tbody>
+                                  {/*{peternaks &&
+                                  peternaks.map(function (p, i) {*/}
+                                  {traceability &&
+                                    traceability.map(function (p, i) {
+                                      return (
+                                        <Tr key={i}>
+                                          {/*
                                         <Td>{p.nama}</Td>
                                         <Td>{p.provinsi}</Td>
                                         <Td>{p.kecamatan}</Td>
                                         <Td>{p.kelurahan}</Td>
                                         <Td>{p.longitude}</Td>
                                         <Td>{p.latitude}</Td>
-                                        <Td>
-                                          <Button
-                                            colorScheme="green"
-                                            size="sm"
-                                            bg="green.400"
-                                            color="white"
-                                            onClick={(event) => {
-                                              event.target.value = null;
-                                              setOverlay(<Overlay id={p.id} />);
-                                              onOpen();
-                                            }}
-                                            _hover={{
-                                              bg: "green.500",
-                                            }}
-                                            isFullWidth
-                                          >
-                                            Tulis Ke Blockchain
-                                          </Button>
-                                        </Td>
-                                      </Tr>
-                                    );
-                                  })}
-                              </Tbody>
-                            </Table>
+                                        */}
+                                          <Td>{p.no_kemas}</Td>
+                                          <Td>{p.volume_hasil_kemas_botol}</Td>
+                                          <Td>{p.area_distribusi}</Td>
+                                          <Td>{p.tgl_selesai_prod}</Td>
+                                          <Td>{p.tgl_kadaluarsa}</Td>
+                                          <Td>{p.no_kantung_panen}</Td>
+                                          <Td>{p.no_halal}</Td>
+                                          <Td>{p.no_bpom}</Td>
+                                          <Td>
+                                            <Button
+                                              colorScheme="green"
+                                              size="sm"
+                                              bg="green.400"
+                                              color="white"
+                                              onClick={(event) => {
+                                                event.target.value = null;
+                                                setOverlay(
+                                                  <Overlay id={p.id} />
+                                                );
+                                                onOpen();
+                                              }}
+                                              _hover={{
+                                                bg: "green.500",
+                                              }}
+                                              isFullWidth
+                                            >
+                                              Tulis Ke Blockchain
+                                            </Button>
+                                          </Td>
+                                        </Tr>
+                                      );
+                                    })}
+                                </Tbody>
+                              </Table>
+                            </TableContainer>
                           </Flex>
-                          {peternaks === null || peternaks.length === 0 ? (
+                          {/*{peternaks === null || peternaks.length === 0 ? (*/}
+                          {traceability === null ||
+                          traceability.length === 0 ? (
                             <Flex m="8" mb="8" align="center" justify="center">
                               <Heading
                                 fontSize={{
@@ -333,6 +425,7 @@ export default function Panen({ session }) {
                     </ModalContent>
                   </Modal>
                 </TabPanel>
+                {/*
                 <TabPanel>
                   <Box>
                     <VStack spacing={{ base: 4, md: 8, lg: 20 }}>
@@ -352,6 +445,7 @@ export default function Panen({ session }) {
                           minW="75vw"
                         >
                           <VStack spacing="5">
+                            
                             <FormControl isRequired>
                               <FormLabel>Nama</FormLabel>
                               <InputGroup>
@@ -443,6 +537,9 @@ export default function Panen({ session }) {
                                 </FormControl>
                               </Box>
                             </Flex>
+                          
+                            
+                            
                           </VStack>
                           <Flex mt="5">
                             <Button
@@ -473,6 +570,8 @@ export default function Panen({ session }) {
                     </VStack>
                   </Box>
                 </TabPanel>
+                */}
+
                 <TabPanel>
                   <Box>
                     <VStack spacing={{ base: 4, md: 8, lg: 20 }}>
@@ -496,8 +595,16 @@ export default function Panen({ session }) {
                               <Thead>
                                 <Tr>
                                   <Th>Wallet</Th>
-                                  <Th>Nama</Th>
-                                  <Th>Kelurahan</Th>
+                                  {/*<Th>Nama</Th>
+                                  <Th>Kelurahan</Th>*/}
+                                  <Th>No Kemas</Th>
+                                  {/*<Th>Volume Hasil Kemas (Botol)</Th>
+                                  <Th>Area Distribusi</Th>
+                                  <Th>Tanggal Selesai Produksi</Th>
+                                  <Th>Tanggal Kadaluarsa</Th>*/}
+                                  <Th>No Kantung Panen</Th>
+                                  <Th>No Halal</Th>
+                                  <Th>No BPOM</Th>
                                 </Tr>
                               </Thead>
                               <Tbody>
@@ -506,8 +613,16 @@ export default function Panen({ session }) {
                                     return (
                                       <Tr key={i}>
                                         <Td>{p[0]}</Td>
-                                        <Td>{p[2]}</Td>
-                                        <Td>{p[3]}</Td>
+                                        {/*<Td>{p[2]}</Td>
+                                        <Td>{p[3]}</Td>*/}
+                                        <Td>{p.no_kemas}</Td>
+                                        {/*<Td>{p.volume_hasil_kemas_botol}</Td>
+                                        <Td>{p.area_distribusi}</Td>
+                                        <Td>{p.tgl_selesai_prod}</Td>
+                                        <Td>{p.tgl_kadaluarsa}</Td>*/}
+                                        <Td>{p.no_kantung_panen}</Td>
+                                        <Td>{p.no_halal}</Td>
+                                        <Td>{p.no_bpom}</Td>
                                       </Tr>
                                     );
                                   })}

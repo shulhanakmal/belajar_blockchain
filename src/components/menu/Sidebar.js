@@ -12,7 +12,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FiTrendingUp, FiTruck, FiSettings, FiMenu } from "react-icons/fi";
+import { FiTrendingUp, FiTruck, FiSettings, FiMenu, FiClipboard } from "react-icons/fi";
 import { GiBeehive, GiBee, GiBarn } from "react-icons/gi";
 import { BsSpeedometer } from "react-icons/bs";
 import { ReactText } from "react";
@@ -158,12 +158,14 @@ const SidebarContent = ({ onClose, ...rest }) => {
         color={"#ed702d"}
         bg="#f2cca3"
       >
-        <strong>Panen</strong>
+        <strong>Panen & Ekstraksi</strong>
       </NavItem>
+
       <NavItem
         key="Produksi & Pengemasan"
         icon={FiTruck}
-        href="#"
+        // href="#"
+        href="/prodpeng"
         _hover={{
           textDecoration: "none",
           bg: "#ed702d",
@@ -175,10 +177,12 @@ const SidebarContent = ({ onClose, ...rest }) => {
       >
         <strong>Produksi & Pengemasan</strong>
       </NavItem>
+
       <NavItem
         key="Inventori"
         icon={GiBarn}
-        href="#"
+        // href="#"; href berfungsi utk menghubungkan tombol Inventori di Sidebar ke halaman pertama yang akan muncul saat tombol tersebut diklik.
+        href="/inventori"
         _hover={{
           textDecoration: "none",
           bg: "#ed702d",
@@ -193,7 +197,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
       <NavItem
         key="Penjualan"
         icon={FiTrendingUp}
-        href="#"
+        // href="#"
+        href="/penjualan"
         _hover={{
           textDecoration: "none",
           bg: "#ed702d",
@@ -205,6 +210,23 @@ const SidebarContent = ({ onClose, ...rest }) => {
       >
         <strong>Penjualan</strong>
       </NavItem>
+      <NavItem
+        key="Traceability"
+        icon={FiClipboard}
+        // href="#"
+        href="/traceability"
+        _hover={{
+          textDecoration: "none",
+          bg: "#ed702d",
+          color: "white",
+        }}
+        fontSize={"18px"}
+        color={"#ed702d"}
+        bg="#f2cca3"
+      >
+        <strong>Traceability</strong>
+      </NavItem>
+
       <NavItem
         key="Pengaturan"
         icon={FiSettings}

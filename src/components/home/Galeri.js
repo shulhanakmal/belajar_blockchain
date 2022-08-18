@@ -71,7 +71,7 @@ export default function Galeri() {
                   shadow="base"
                   minW="90vw"
                 >
-                  <Grid templateColumns="repeat(2, 1fr)" gap={6}>
+                  <Grid templateColumns="repeat(4, 1fr)" gap={6}>
                     <div>
                       <Heading
                         fontSize={{
@@ -79,10 +79,16 @@ export default function Galeri() {
                           md: "3xl",
                         }}
                         color={"#ed702d"}
+              
                       >
                         Galeri
                       </Heading>
-                      <Box
+                      
+                      <img src="https://drive.google.com/uc?export=view&id=1JaiVKdS2nkqkvYlzVcOpbnhgG_Q5jatu" alt="inspeksi stup" width="250px" height="150px" />
+                     {/* <img src="/images/InspeksiStup.PNG" alt="inspeksi stup" width="250px" height="150px" />
+                       */}
+                      
+                      {/*<Box
                         p="2"
                         mt="10"
                         minW="100px"
@@ -90,16 +96,40 @@ export default function Galeri() {
                         bg={useColorModeValue("#f0c28a")}
                       >
                         <Text>Video</Text>
-                      </Box>
+                      </Box>*/}
                     </div>
-                    <Box
+                    {/*<Box
                       p="2"
                       minW="100px"
                       minH="100px"
                       bg={useColorModeValue("#f0c28a")}
                     >
                       <Text>Foto</Text>
-                    </Box>
+                    </Box> 
+                    https://drive.google.com/file/d//view?usp=sharing
+                    */}
+                    <div>
+                      <br></br>
+                     <img src="https://drive.google.com/uc?export=view&id=1lPMQCRa0QBm1-EmFu5EzwGvezXe0Jtik" alt="ukuran lebah" width="300px" height="300px" />
+                    </div>
+                    <div>
+                      <br></br>
+                      <img src="https://drive.google.com/uc?export=view&id=131sM2IFW82XiGncyaJbD3OSWu_h43z3j" alt="Propolis di Stup"  data-rotate="90" />
+                    </div>
+
+                    <div>
+                      <br></br>
+                      <img src="https://drive.google.com/uc?export=view&id=1UNx6ot-NeHU7I414oFaftsZw-5SR-UxT" alt="trigona di lily" width="300px" height="300px" />
+                    </div>
+
+                    <div>
+                      <img src="https://drive.google.com/uc?export=view&id=1Ru3yFn9hm9g96vXMc3qqTTey6QozXcdq" alt="raw propolis" width="300px" height="300px" />
+                    </div>
+
+                    <div>
+                      <img src="https://drive.google.com/uc?export=view&id=1WQo7szYbGRQ_MRX_lp1TodTrCFzxphCs" alt="frozen raw propolis" width="300px" height="300px" />
+                    </div>
+                    
                   </Grid>
                 </Box>
               </Stack>

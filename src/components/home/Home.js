@@ -45,23 +45,40 @@ export default function Home() {
   const side = useBreakpointValue({ base: "30%", md: "40px" });
 
   const cards = [
+    // Carrousel 1
     {
       title: "Design Projects 1",
       text: "Solusi blockchain untuk traceability madu dan propolis trigona Komunitas Peternak Lebah Priangan",
       image:
-        "https://images.unsplash.com/photo-1516796181074-bf453fbfa3e6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
+        "/images/LebahTrigonaCarrousel1.PNG",
     },
+    // Carrousel 2
     {
       title: "Design Projects 2",
       text: "Lebah Trigona sp adalah lebah kecil tanpa sengat (stingless bee) dari famili Meliponini dan daya adaptasi tinggi terhadap kondisi lingkungan yang ekstrem dibandingkan dengan jenis lebah lainnya. Lebah trigona juga tergolong sangat mudah dibudidayakan dan tidak memerlukan biaya tinggi dalam pemeliharaanya.",
       image:
-        "https://images.unsplash.com/photo-1438183972690-6d4658e3290e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2274&q=80",
+        "/images/LebahTrigonaCarrousel2.PNG",
     },
+    // Carrousel 3
     {
       title: "Design Projects 3",
       text: "Madu dan propolis dari lebah trigona kaya akan manfaat, khususnya pada dunia kesehatan dan kosmetik. Selain itu, produk lebah trigona ini memiliki harga jual yang relatif lebih mahal dibandingkan dengan madu dan propolis dari lebah Aphis sp. Madu dan propolis lebah trigona diklaim memiliki dua kali lebih banyak nutrisi dan memiliki lebih banyak mineral (potassium, magnesium, iron and zinc) serta memuat phenolic content (TPC) dan flavonoid content (TFC) yang tinggi.",
       image:
-        "https://images.unsplash.com/photo-1507237998874-b4d52d1dd655?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDR8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=900&q=60",
+        "/images/LebahTrigonaCarrousel3.PNG",
+    },
+    // Carrousel 4
+    {
+      title: "Design Projects 4",
+      text: "Teknologi blockchain dapat menjaga keamanan data dan integritas data sehingga produk dari Bee Eight Farm dapat ditelusuri asal usulnya (traceable) dari awal produksi sampai ke tangan konsumen. Hal inil akan menumbuhkan kepercayaan dan kenyamanan konsumen dalam membeli produk Bee Eight Farm hingga tercapainya sustainable procurement.",
+      image:
+        "/images/LebahTrigonaCarrousel4.PNG",
+    },
+    // Carrousel 5
+    {
+      title: "Design Projects 5",
+      text: "Bee Eight Farm merupakan salah satu peternakan lebah dan juga menjadi pusat produksi madu dan propolis Komunitas Peternak Lebah Priangan. Komunitas Peternak Lebah Priangan  terdiri dari 28 peternak lebah dengan total 35 peternakan yang tersebar di Jawa Barat.",
+      image:
+        "/images/LebahTrigonaCarrousel5.PNG",
     },
   ];
 
@@ -148,12 +165,17 @@ export default function Home() {
                   <Grid templateColumns="3fr 4fr" gap={6}>
                     <div>
                       <Box p="2" minW="100px" minH="100px">
-                        <Image src={card.image} width="500px" />
+                        <Image src={card.image} width="500px" maxHeight="450px" />
                       </Box>
                     </div>
                     <div>
                       <Box p="2" minW="100px" minH="100px">
-                        <Text>{card.text}</Text>
+                        {/*<style>
+@import url('https://fonts.googleapis.com/css2?family=Square+Peg&display=swap');
+</style>*/}
+                        <Text>
+                          {card.text}
+                        </Text>
                       </Box>
                     </div>
                   </Grid>

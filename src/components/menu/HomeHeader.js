@@ -154,6 +154,7 @@ export default function HomeHeader() {
             >
               <strong>Produk</strong>
             </Link>
+
             <Link
               px={10}
               py={2}
@@ -163,13 +164,14 @@ export default function HomeHeader() {
                 bg: useColorModeValue("#ed702d"),
                 color: "white",
               }}
-              href={"/x"}
+              href={"/tentangtraceability"}
               fontSize={"18px"}
               color={"#ed702d"}
               bg="#f2cca3"
             >
-              <strong>x</strong>
+              <strong>Traceability</strong>
             </Link>
+
             <Link
               px={10}
               py={2}

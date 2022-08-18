@@ -9,11 +9,12 @@ import Home from "./home/Home";
 import TentangKami from "./home/TentangKami";
 import Galeri from "./home/Galeri";
 import Produk from "./home/Produk";
+import TentangTraceability from "./home/TentangTraceability";
 import Peternak from "./dashboard/peternak/Peternak";
 import Peternakan from "./dashboard/peternak/Peternakan";
 import Stup from "./dashboard/peternak/Stup";
-import Panen from "./dashboard/Panen";
 import Dashboard from "./dashboard/Dashboard";
+import Traceability from "./dashboard/traceability/Traceability";
 
 const App = () => {
   const [session, setSession] = useState(null);
@@ -37,6 +38,11 @@ const App = () => {
               <Route path="/tentang-kami" exact element={<TentangKami />} />
               <Route path="/galeri" exact element={<Galeri />} />
               <Route path="/produk" exact element={<Produk />} />
+              <Route
+                path="/tentangtraceability"
+                exact
+                element={<TentangTraceability />}
+              />
             </Routes>
           </BrowserRouter>
         </>
@@ -76,7 +82,7 @@ const App = () => {
                 </>
               }
             />
-            <Route path="/Panen" exact element={<Panen />} />
+            <Route path="/Traceability" exact element={<Traceability />} />
           </Routes>
         </BrowserRouter>
       )}
